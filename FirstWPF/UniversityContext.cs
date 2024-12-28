@@ -9,18 +9,13 @@ using System.Threading.Tasks;
 
 namespace FirstWPF
 {
-    public class UniversityContext:DbContext
+    public class UniversityContext : DbContext 
     {
-        public UniversityContext(DbContextOptions<UniversityContext> options) 
-            : base(options) 
-        {
-            Database.Migrate();
-        }
+        public UniversityContext(DbContextOptions<UniversityContext> options)
+            : base(options) { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=DESKTOP-4CPJD5R;Database=UniversityDb;Trusted_Connection=True;                       TrustServerCertificate=True;");
-            optionsBuilder.ConfigureWarnings(warnings =>
-    warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
+            optionsBuilder.UseSqlServer("Server=DESKTOP-4CPJD5R;Database=UniversityDb;Trusted_Connection=True;TrustServerCertificate=True;");
         }
         public DbSet<University> Universities { get; set; }
         public DbSet<Group> Groups { get; set; }

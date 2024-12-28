@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FirstWPF.Migrations
 {
     /// <inheritdoc />
-    public partial class First : Migration
+    public partial class Intitial_Create : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
