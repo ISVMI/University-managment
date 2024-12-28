@@ -12,7 +12,7 @@ namespace FirstWPF
     public class UniversityContext : DbContext 
     {
         public UniversityContext(DbContextOptions<UniversityContext> options)
-            : base(options) { }
+            : base(options) {}
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=DESKTOP-4CPJD5R;Database=UniversityDb;Trusted_Connection=True;TrustServerCertificate=True;");

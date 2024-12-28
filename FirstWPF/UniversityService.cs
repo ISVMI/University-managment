@@ -39,8 +39,7 @@ namespace FirstWPF
                     Специальность = g.Speciality,
                     Студенты = ""
                 })
-                .ToList();
-            return groups;
+                .ToList(); return groups;
         }
     }
 }
