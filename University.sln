@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloApp", "HelloApp\HelloApp.csproj", "{475FDED3-41C0-417D-9EB5-AF66FD13F1D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirstWPF", "FirstWPF\FirstWPF.csproj", "{F130AC34-E894-4824-B9EF-89D774016577}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{475FDED3-41C0-417D-9EB5-AF66FD13F1D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{475FDED3-41C0-417D-9EB5-AF66FD13F1D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{475FDED3-41C0-417D-9EB5-AF66FD13F1D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{475FDED3-41C0-417D-9EB5-AF66FD13F1D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F130AC34-E894-4824-B9EF-89D774016577}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F130AC34-E894-4824-B9EF-89D774016577}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F130AC34-E894-4824-B9EF-89D774016577}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F130AC34-E894-4824-B9EF-89D774016577}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,17 @@
+﻿<Window x:Class="FirstWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FirstWPF"
+        mc:Ignorable="d"
+        MinHeight="780"
+        MinWidth="1024"
+        Title="Меню" Height="768" Width="1024" 
+        WindowStartupLocation="CenterScreen"
+        Initialized="Window_Initialized">
+    
+    <Grid x:Name="MainGrid" ShowGridLines="True" Background="#FFB1A5A5">
+        <Frame x:Name="MainFrame"/>
+    </Grid>
+</Window>
