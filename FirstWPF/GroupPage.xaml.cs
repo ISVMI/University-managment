@@ -45,9 +45,9 @@ namespace FirstWPF
             string groupSpeciality = Speciality.Text;
             Group group = new () { 
                 GroupName = groupCode, 
-                Speciality = groupSpeciality, 
-                University = new(), 
-                UniversityId = 1 };
+                Speciality = groupSpeciality,  
+                UniversityId = 1,
+            };
             return group;
         }
         private void SaveGroup_Click(object sender, RoutedEventArgs e)
@@ -59,6 +59,7 @@ namespace FirstWPF
             UniversityContext UniversityDb = new(optionsBuilder.Options);
             UniversityDb.Groups.AddAsync(group);
             UniversityDb.SaveChanges();
+            MessageBox.Show($"Успешно добавлена группа {group.GroupName} !");
         }
     }
 }

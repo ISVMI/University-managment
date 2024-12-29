@@ -24,7 +24,6 @@ namespace FirstWPF
                 {
                     Имя = s.Name,
                     Фамилия = s.Surname,
-                    Группа = s.Group.GroupName,
                     Дата_Рождения = s.BirthDate,
                     Средний_Балл = s.AvgMark
                 })
@@ -39,7 +38,7 @@ namespace FirstWPF
                 {
                     Группа = g.GroupName,
                     Специальность = g.Speciality,
-                    Студенты = ""
+                    Студенты = g.Students
                 })
                 .ToListAsync();
             return groups;

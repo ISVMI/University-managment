@@ -32,7 +32,7 @@ namespace FirstWPF
             this.NavigationService.Navigate(new MainPage());
         }
 
-        private Student GetNewStudent() 
+        private Student GetNewStudent()
         {
             string surname = SurnameBox.Text;
             string name = NameBox.Text;
@@ -68,30 +68,42 @@ namespace FirstWPF
                 BirthDate.Text = "";
                 return null;
             }
-            try
-            {
-                gName = GroupBox.SelectedValue.ToString();
-            }
-            catch
-            {
-                MessageBox.Show($"Выберите группу!");
-                GroupBox.SelectedIndex = -1;
-                return null;
-            }
-            Group sGroup = new() { GroupName = gName, UniversityId = 1 };
-            Student student = new() { Surname = surname, Name = name, AvgMark = avgMark, BirthDate = birthDate, Group = sGroup };
+            //try
+            //{
+            //    gName = GroupBox.SelectedValue.ToString();
+            //}
+            //catch
+            //{
+            //    MessageBox.Show($"Выберите группу!");
+            //    GroupBox.SelectedIndex = -1;
+            //    return null;
+            //}
+            Student student = new() { Surname = surname, Name = name, AvgMark = avgMark, BirthDate = birthDate };
             return student;
         }
         private void SaveStudent_Click(object sender, RoutedEventArgs e)
         {
             Student student;
+            //var groupConnection = GroupBox.SelectedValue.ToString();
             if (GetNewStudent() == null) { return; }
             student = GetNewStudent();
             var optionsBuilder = new DbContextOptionsBuilder<UniversityContext>();
             UniversityContext UniversityDb = new(optionsBuilder.Options);
+            Group newStudent;
+            try 
+            { 
+                newStudent = UniversityDb.Groups.FirstOrDefault(g => g.GroupName == GroupBox.SelectedValue.ToString());
+                newStudent.Students.Add(student);
+            }
+            catch 
+            {
+                MessageBox.Show("Сначала добавьте хотя бы одну группу!"); 
+                return;
+            }
             UniversityDb.Students.AddAsync(student);
             UniversityDb.SaveChanges();
-        }
+            MessageBox.Show($"Новый студент {student.Surname} {student.Name} успешно добавлен!");
+        } 
 
         private async void Grid_Initialized(object sender, EventArgs e)
         {
@@ -99,6 +111,15 @@ namespace FirstWPF
             UniversityContext UniversityDb = new(optionsBuilder.Options);
             var groupNames = await UniversityDb.Groups.Select(g => g.GroupName).ToListAsync();
             GroupBox.ItemsSource = groupNames;
+        }
+
+        private void CancelS_Click(object sender, RoutedEventArgs e)
+        {
+            SurnameBox.Text = "";
+            NameBox.Text = "";
+            AvgMarkBox.Text = "";
+            BirthDate.Text = "";
+            GroupBox.SelectedIndex = -1;
         }
     }
 }

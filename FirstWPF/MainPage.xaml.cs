@@ -50,17 +50,12 @@ namespace FirstWPF
             UniversityService universityService = new(UniversityDb);
             var groups = await universityService.GetGroups();
             var students = await universityService.GetStudents();
-            foreach (var student in students)
-            {
-                switch (student.Группа)
-                {
-                    case "121": groups[0].Студенты += student.Фамилия + " " + student.Имя + " "; break;
-                    case "131": groups[1].Студенты += student.Фамилия + " " + student.Имя + " "; break;
-                    case "141": groups[2].Студенты += student.Фамилия + " " + student.Имя + " "; break;
-                }
-            }
             DbGrid.Columns.Clear();
             DbGrid.ItemsSource = groups;
+            //foreach (var student in students)
+            //{
+            //    DbGrid.Columns[2]
+            //}
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
@@ -70,10 +65,12 @@ namespace FirstWPF
 
         private void AddNew_Click(object sender, RoutedEventArgs e)
         {
-            if (TableBox.SelectedIndex == 0)
-                MainFrame.Navigate(new GroupPage());
-            else
-            MainFrame.Navigate(new StudentPage());
+            switch (TableBox.SelectedIndex)
+            {
+                case -1: { MessageBox.Show("Выберите таблицу!"); return; }   
+                case 0: { MainFrame.Navigate(new GroupPage()); break; }
+                case 1: { MainFrame.Navigate(new StudentPage()); break; }
+            }
         }
     }
 }

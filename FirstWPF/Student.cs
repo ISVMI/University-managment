@@ -14,9 +14,5 @@ namespace FirstWPF
         public string? Surname { get; set; }
         public DateTime BirthDate { get; set; }
         public double AvgMark { get; set; }
-        // Внешний ключ для группы
-        public int GroupId { get; set; }
-        // Навигационное свойство
-        public Group? Group { get; set; }
     }
 }

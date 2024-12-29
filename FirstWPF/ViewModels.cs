@@ -11,7 +11,6 @@ namespace FirstWPF
     {
         public string Фамилия { get; set; }
         public string Имя { get; set; }
-        public string Группа { get; set; }
         public DateTime Дата_Рождения { get; set; }
         public double Средний_Балл { get; set; }
     }
@@ -19,6 +18,6 @@ namespace FirstWPF
     {
         public string Группа { get; set; }
         public string Специальность { get; set; }
-        public string Студенты { get; set; }
+        public List<Student> Студенты { get; set; }
     }
 }

@@ -36,7 +36,7 @@
         <TextBox x:Name ="AvgMarkBox" HorizontalAlignment="Left" Margin="300,219,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="458" Height="30" Grid.Row="1"/>
         <DatePicker x:Name ="BirthDate" HorizontalAlignment="Left" Margin="300,309,0,0" VerticalAlignment="Top" Height="24" Width="457" Grid.Row="1"/>
         <Button x:Name = "SaveStudent" Content="Сохранить" FontSize = "24" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="222"  Margin="39,541,0,0" Grid.Row="1" Click="SaveStudent_Click"/>
-        <Button x:Name = "CancelS" Content="Отмена" FontSize = "24" HorizontalAlignment="Left" VerticalAlignment="Top" Height="39" Width="222"  Margin="536,542,0,0" Grid.Row="1"/>
+        <Button x:Name = "CancelS" Content="Отмена" FontSize = "24" HorizontalAlignment="Left" VerticalAlignment="Top" Height="39" Width="222"  Margin="536,542,0,0" Grid.Row="1" Click="CancelS_Click"/>
         <ComboBox x:Name="GroupBox" ItemBindingGroup="{Binding Path=(local:UniversityContext.Groups)}" HorizontalAlignment="Left" Margin="300,388,0,0" Grid.Row="1" VerticalAlignment="Top" Width="140" Height="30"/>
     </Grid>
 </Page>
