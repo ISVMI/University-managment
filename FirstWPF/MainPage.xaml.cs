@@ -42,8 +42,6 @@ namespace FirstWPF
             var students = await universityService.GetStudents();
             DbGrid.Columns.Clear();
             DbGrid.ItemsSource = students;
-            //StudentId = 2;
-            //StudentId += DbGrid.Columns.Count;
         }
         private async Task LoadGroupsGridAsync()
         {
@@ -73,8 +71,9 @@ namespace FirstWPF
         private void AddNew_Click(object sender, RoutedEventArgs e)
         {
             if (TableBox.SelectedIndex == 0)
-                MainFrame.Navigate(new StudentPage());
-            MainFrame.Navigate(new GroupPage());
+                MainFrame.Navigate(new GroupPage());
+            else
+            MainFrame.Navigate(new StudentPage());
         }
     }
 }

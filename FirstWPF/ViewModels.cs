@@ -12,6 +12,8 @@ namespace FirstWPF
         public string Фамилия { get; set; }
         public string Имя { get; set; }
         public string Группа { get; set; }
+        public DateTime Дата_Рождения { get; set; }
+        public double Средний_Балл { get; set; }
     }
     public class GroupViewModel
     {

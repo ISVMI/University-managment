@@ -34,20 +34,31 @@ namespace FirstWPF
             this.NavigationService.Navigate(new MainPage());
         }
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private Group GetNewGroup()
         {
-
+            string groupCode;
+            if (ComboCourse.Text == null || ComboSpec.Text == null || ComboGroup.Text == null)
+            {
+                return null; 
+            }
+            groupCode = ComboCourse.Text + ComboSpec.Text + ComboGroup.Text;
+            string groupSpeciality = Speciality.Text;
+            Group group = new () { 
+                GroupName = groupCode, 
+                Speciality = groupSpeciality, 
+                University = new(), 
+                UniversityId = 1 };
+            return group;
         }
-
         private void SaveGroup_Click(object sender, RoutedEventArgs e)
         {
-            string groupCode = ComboCourse.Text + ComboSpec.Text + ComboGroup.Text;
-            string groupSpeciality = Speciality.Text;
-            Group group = new() { GroupName = groupCode, Speciality = groupSpeciality};
+            Group group;
+            if (GetNewGroup() == null) { return; }
+            group = GetNewGroup();
             var optionsBuilder = new DbContextOptionsBuilder<UniversityContext>();
             UniversityContext UniversityDb = new(optionsBuilder.Options);
             UniversityDb.Groups.AddAsync(group);
-            UniversityDb.SaveChangesAsync();
+            UniversityDb.SaveChanges();
         }
     }
 }

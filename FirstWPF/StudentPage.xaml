@@ -8,32 +8,35 @@
       Title="Добавление студента" d:DesignHeight="768" d:DesignWidth="1024"
       >
 
-    <Grid Background="#FFB1A5A5">
+    <Grid Background="#FFB1A5A5" Initialized="Grid_Initialized">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="791*"/>
+            <ColumnDefinition Width="233*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition/>
+            <RowDefinition Height="85*"/>
+            <RowDefinition Height="610*"/>
+            <RowDefinition Height="73*"/>
         </Grid.RowDefinitions>
-        <TextBlock HorizontalAlignment="Left" Margin="34,10,0,0" TextWrapping="Wrap" 
-        FontSize ="48" Text="Введите информацию о студенте:" VerticalAlignment="Top" Width="766"/>
-        <TextBlock HorizontalAlignment="Left" Margin="103,145,0,0" TextWrapping="Wrap" 
-        FontSize ="32" Text="Фамилия:" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="173,219,0,0" TextWrapping="Wrap" 
-        FontSize ="32" Text="Имя:" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="10,385,0,0" TextWrapping="Wrap" 
-        FontSize ="32" Text="Дата рождения:" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="34,298,0,0" TextWrapping="Wrap" 
-        FontSize ="32" Text="Средний балл:" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="133,481,0,0" TextWrapping="Wrap" 
-        FontSize ="32" Text="Группа:" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="267,158,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="457" Height="30"/>
-        <TextBox HorizontalAlignment="Left" Margin="267,225,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="457" Height="30"/>
-        <TextBox HorizontalAlignment="Left" Margin="267,304,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="457" Height="30"/>
-        <TextBox HorizontalAlignment="Left" Margin="267,494,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="457" Height="30"/>
-        <DatePicker HorizontalAlignment="Left" Margin="267,394,0,0" VerticalAlignment="Top" Height="24" Width="457"/>
-        <Button x:Name = "SaveStudent" Content="Сохранить" FontSize = "24" HorizontalAlignment="Left" VerticalAlignment="Top" Height="39" Width="222"  Margin="34,635,0,0"/>
-        <Button x:Name = "CancelS" Content="Отмена" FontSize = "24" HorizontalAlignment="Left" VerticalAlignment="Top" Height="39" Width="222"  Margin="439,635,0,0"/>
-        <Button x:Name = "SBack" Content="Выход" FontSize = "24" HorizontalAlignment="Left" VerticalAlignment="Top" Height="39" Width="222"  Margin="736,668,0,0"/>
+        <Button x:Name = "SBack" Content="Выход" FontSize = "24" HorizontalAlignment="Center" VerticalAlignment="Top" Height="39" Width="222"  Margin="1,24,0,0" Grid.Row="2" Grid.Column="1" Click="SBack_Click"/>
+        <TextBlock HorizontalAlignment="Stretch" Margin="34,0,0,0" TextWrapping="Wrap" 
+            FontSize ="48" Text="Введите информацию о студенте:" VerticalAlignment="Center" Width="747"/>
+        <TextBlock Margin="132,60,0,0" TextWrapping="Wrap" 
+            FontSize ="32" Text="Фамилия:" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1"/>
+        <TextBlock Margin="202,127,0,0" TextWrapping="Wrap" 
+            FontSize ="32" Text="Имя:" HorizontalAlignment="Left" VerticalAlignment="Top"  Grid.Row="1"/>
+        <TextBlock Margin="39,290,0,0" TextWrapping="Wrap" 
+            FontSize ="32" Text="Дата рождения:" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="1"/>
+        <TextBlock Margin="59,206,0,0" TextWrapping="Wrap" 
+            FontSize ="32" Text="Средний балл:" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1"/>
+        <TextBlock Margin="162,375,0,0" TextWrapping="Wrap" 
+            FontSize ="32" Text="Группа:" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1"/>
+        <TextBox x:Name ="SurnameBox" HorizontalAlignment="Left" Margin="300,73,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="457" Height="30" Grid.Row="1"/>
+        <TextBox x:Name ="NameBox" HorizontalAlignment="Left" Margin="300,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="457" Height="30" Grid.Row="1"/>
+        <TextBox x:Name ="AvgMarkBox" HorizontalAlignment="Left" Margin="300,219,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="458" Height="30" Grid.Row="1"/>
+        <DatePicker x:Name ="BirthDate" HorizontalAlignment="Left" Margin="300,309,0,0" VerticalAlignment="Top" Height="24" Width="457" Grid.Row="1"/>
+        <Button x:Name = "SaveStudent" Content="Сохранить" FontSize = "24" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="222"  Margin="39,541,0,0" Grid.Row="1" Click="SaveStudent_Click"/>
+        <Button x:Name = "CancelS" Content="Отмена" FontSize = "24" HorizontalAlignment="Left" VerticalAlignment="Top" Height="39" Width="222"  Margin="536,542,0,0" Grid.Row="1"/>
+        <ComboBox x:Name="GroupBox" ItemBindingGroup="{Binding Path=(local:UniversityContext.Groups)}" HorizontalAlignment="Left" Margin="300,388,0,0" Grid.Row="1" VerticalAlignment="Top" Width="140" Height="30"/>
     </Grid>
 </Page>
