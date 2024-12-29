@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -40,13 +41,13 @@ namespace FirstWPF
 
         private void SaveGroup_Click(object sender, RoutedEventArgs e)
         {
-            /*string groupCode = ComboCourse.Text + ComboSpec.Text + ComboGroup.Text;
+            string groupCode = ComboCourse.Text + ComboSpec.Text + ComboGroup.Text;
             string groupSpeciality = Speciality.Text;
-            int groupId = MainPage.GroupId;
-            Group group = new();
+            Group group = new() { GroupName = groupCode, Speciality = groupSpeciality};
             var optionsBuilder = new DbContextOptionsBuilder<UniversityContext>();
             UniversityContext UniversityDb = new(optionsBuilder.Options);
-            UniversityDb.Groups.Add*/
+            UniversityDb.Groups.AddAsync(group);
+            UniversityDb.SaveChangesAsync();
         }
     }
 }

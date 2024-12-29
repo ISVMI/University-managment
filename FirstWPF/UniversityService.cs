@@ -16,30 +16,31 @@ namespace FirstWPF
         {
             _context = context;
         }
-        public List<StudentViewModel> GetStudents() 
+        public async Task<List<StudentViewModel>> GetStudents() 
         {
 
-            var students = _context.Students
+            var students = await _context.Students
                 .Select(s => new StudentViewModel
                 {
                     Имя = s.Name,
                     Фамилия = s.Surname,
                     Группа = s.Group.GroupName
                 })
-                .ToList();
-            return students;
+                .ToListAsync();
+            return students; 
         }
 
-        public List<GroupViewModel> GetGroups()
+        public async Task<List<GroupViewModel>> GetGroups()
         {
-            var groups = _context.Groups
+            var groups = await _context.Groups
                 .Select(g => new GroupViewModel
                 {
                     Группа = g.GroupName,
                     Специальность = g.Speciality,
                     Студенты = ""
                 })
-                .ToList(); return groups;
+                .ToListAsync();
+            return groups;
         }
     }
 }

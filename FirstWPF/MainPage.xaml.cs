@@ -21,41 +21,37 @@ namespace FirstWPF
     /// </summary>
     public partial class MainPage : Page
     {
-        public static int StudentId { get; private set; }
-        public static int GroupId { get; private set; }
         public MainPage()
         {
             InitializeComponent();
         }
 
-        public int GetStudentId() => StudentId;
-        public int GetGroupId() => GroupId;
-        private void TableBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void TableBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             switch (TableBox.SelectedIndex)
             {
-                case 0: { LoadGroupsGrid(); break; }
-                case 1: { LoadStudentsGrid(); break; }
+                case 0: { await LoadGroupsGridAsync(); break; }
+                case 1: { await LoadStudentsGridAsync(); break; }
             }
         }
-        private void LoadStudentsGrid()
+        private async Task LoadStudentsGridAsync()
         {
             var optionsBuilder = new DbContextOptionsBuilder<UniversityContext>();
             UniversityContext UniversityDb = new(optionsBuilder.Options);
             UniversityService universityService = new(UniversityDb);
-            var students = universityService.GetStudents();
+            var students = await universityService.GetStudents();
             DbGrid.Columns.Clear();
             DbGrid.ItemsSource = students;
-            StudentId = 2;
-            StudentId += DbGrid.Columns.Count;
+            //StudentId = 2;
+            //StudentId += DbGrid.Columns.Count;
         }
-        private void LoadGroupsGrid()
+        private async Task LoadGroupsGridAsync()
         {
             var optionsBuilder = new DbContextOptionsBuilder<UniversityContext>();
             UniversityContext UniversityDb = new(optionsBuilder.Options);
             UniversityService universityService = new(UniversityDb);
-            var groups = universityService.GetGroups();
-            var students = universityService.GetStudents();
+            var groups = await universityService.GetGroups();
+            var students = await universityService.GetStudents();
             foreach (var student in students)
             {
                 switch (student.Группа)
@@ -67,8 +63,6 @@ namespace FirstWPF
             }
             DbGrid.Columns.Clear();
             DbGrid.ItemsSource = groups;
-            GroupId = 1;
-            GroupId += DbGrid.Columns.Count;
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
