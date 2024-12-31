@@ -84,16 +84,27 @@ namespace FirstWPF
         private void SaveStudent_Click(object sender, RoutedEventArgs e)
         {
             Student student;
-            //var groupConnection = GroupBox.SelectedValue.ToString();
             if (GetNewStudent() == null) { return; }
             student = GetNewStudent();
             var optionsBuilder = new DbContextOptionsBuilder<UniversityContext>();
             UniversityContext UniversityDb = new(optionsBuilder.Options);
-            Group newStudent;
-            try 
-            { 
-                newStudent = UniversityDb.Groups.FirstOrDefault(g => g.GroupName == GroupBox.SelectedValue.ToString());
-                newStudent.Students.Add(student);
+            try
+            {
+                var newStudent = UniversityDb.Groups
+                    .Select(g => new Group()
+                    {
+                        Id = g.Id,
+                        GroupName = g.GroupName,
+                        Speciality = g.Speciality,
+                        StudentId = g.StudentId,
+                        Students = g.Students,
+                    })
+                    .Where(g => g.GroupName == GroupBox.SelectedValue.ToString())
+                    .ToList();
+                foreach (var groups in newStudent)
+                {
+                    groups.Students.Add(student);
+                }
             }
             catch 
             {

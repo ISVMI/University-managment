@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,36 +27,37 @@ namespace FirstWPF
             InitializeComponent();
         }
 
-        private async void TableBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void TableBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             switch (TableBox.SelectedIndex)
             {
-                case 0: { await LoadGroupsGridAsync(); break; }
-                case 1: { await LoadStudentsGridAsync(); break; }
+                case 0: { LoadGroupsGridAsync(); break; }
+                case 1: { LoadStudentsGridAsync(); break; }
             }
         }
-        private async Task LoadStudentsGridAsync()
+        private void LoadStudentsGridAsync()
         {
             var optionsBuilder = new DbContextOptionsBuilder<UniversityContext>();
             UniversityContext UniversityDb = new(optionsBuilder.Options);
-            UniversityService universityService = new(UniversityDb);
-            var students = await universityService.GetStudents();
+            var dbStudents = UniversityDb.Students.ToList();
             DbGrid.Columns.Clear();
-            DbGrid.ItemsSource = students;
+            DbGrid.ItemsSource = dbStudents;
         }
-        private async Task LoadGroupsGridAsync()
+        private void LoadGroupsGridAsync()
         {
             var optionsBuilder = new DbContextOptionsBuilder<UniversityContext>();
             UniversityContext UniversityDb = new(optionsBuilder.Options);
-            UniversityService universityService = new(UniversityDb);
-            var groups = await universityService.GetGroups();
-            var students = await universityService.GetStudents();
+            var dbGroups = UniversityDb.Groups.ToList();
             DbGrid.Columns.Clear();
-            DbGrid.ItemsSource = groups;
-            //foreach (var student in students)
+            DbGrid.ItemsSource = dbGroups;
+            //List <string> students = [];
+            //foreach (var group in dbGroups) 
             //{
-            //    DbGrid.Columns[2]
+            //    foreach (var student in group.Students) 
+            //    { students.Add(student.ToString()); }
             //}
+            //DataColumn dc = new ("Студенты", typeof(string));
+            //DbGrid.Columns.Add(dc);
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
@@ -71,6 +73,41 @@ namespace FirstWPF
                 case 0: { MainFrame.Navigate(new GroupPage()); break; }
                 case 1: { MainFrame.Navigate(new StudentPage()); break; }
             }
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<UniversityContext>();
+            UniversityContext UniversityDb = new(optionsBuilder.Options);
+            var groups = UniversityDb.Groups;
+            var students = UniversityDb.Students;
+            if (TableBox.Text == "Группы")
+            {
+                var groupItem = DbGrid.SelectedItems;
+                foreach (Group item in groupItem) 
+                {
+                    if (groups.Any(g => g.Id == item.Id))
+                    { groups.Remove(item);  }
+
+                }
+                UniversityDb.SaveChanges();
+                DbGrid.ItemsSource = groups.ToList();
+            }
+            else if (TableBox.Text == "Студенты")
+            {
+                var studentItem = DbGrid.SelectedItems;
+                foreach (Student item in studentItem)
+                if (UniversityDb.Students.Any(i => i.Id == item.Id))
+                { UniversityDb.Students.Remove(item); }
+                UniversityDb.SaveChanges();
+                DbGrid.ItemsSource = students.ToList();
+            }
+            else
+            {
+                MessageBox.Show("Вы не выбрали ни одной записи!");
+                return;
+            }
+
         }
     }
 }

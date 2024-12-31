@@ -14,5 +14,9 @@ namespace FirstWPF
         public string? Surname { get; set; }
         public DateTime BirthDate { get; set; }
         public double AvgMark { get; set; }
+        public override string ToString()
+        {
+            return this.Surname + " " + this.Name;
+        }
     }
 }

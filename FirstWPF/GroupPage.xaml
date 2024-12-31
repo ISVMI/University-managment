@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:FirstWPF"
       mc:Ignorable="d"
-      Title="Добавление группы" d:DesignHeight="768" d:DesignWidth="1024"
+      Title="Добавление группы" d:DesignHeight="768" d:DesignWidth="1024" Initialized="Page_Initialized"
       >
 
     <Grid Background="#FFB1A5A5">
@@ -19,21 +19,21 @@
         </Grid.RowDefinitions>
         <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" 
 FontSize ="48" Text="Введите информацию о группе:" VerticalAlignment="Top" Width="724" Height="64"/>
-        <TextBlock HorizontalAlignment="Left" Margin="75,213,0,0" TextWrapping="Wrap" 
-        FontSize ="32" Text="Код группы:" VerticalAlignment="Top" Height="43" Width="177" Grid.Column="0" Grid.Row="0"/>
-        <TextBlock HorizontalAlignment="Left" Margin="22,283,0,0" TextWrapping="Wrap" 
-        FontSize ="32" Text="Специальность:" VerticalAlignment="Top" Height="43" Width="230" Grid.Column="0" Grid.Row="0"/>
-        <Button x:Name = "SaveGroup" Content="Сохранить" FontSize = "24" HorizontalAlignment="Left" VerticalAlignment="Top" Height="39" Width="222"  Margin="53,384,0,0" Click="SaveGroup_Click" Grid.Column="0" Grid.Row="0"/>
-        <Button x:Name = "CancelG" Content="Отмена" FontSize = "24" HorizontalAlignment="Left" VerticalAlignment="Top" Height="39" Width="222"  Margin="512,384,0,0" RenderTransformOrigin="0.24,-6.793" Grid.Column="0" Grid.Row="0"/>
+        <TextBlock HorizontalAlignment="Left" Margin="66,219,0,0" TextWrapping="Wrap" 
+        FontSize ="32" Text="Код группы:" VerticalAlignment="Top" Height="43" Width="186" Grid.Column="0" Grid.Row="0"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,310,0,0" TextWrapping="Wrap" 
+        FontSize ="32" Text="Специальность:" VerticalAlignment="Top" Height="43" Width="239" Grid.Column="0" Grid.Row="0"/>
+        <Button x:Name = "SaveGroup" Content="Сохранить" FontSize = "24" HorizontalAlignment="Left" VerticalAlignment="Top" Height="39" Width="222"  Margin="30,610,0,0" Click="SaveGroup_Click" Grid.Column="0" Grid.Row="0"/>
+        <Button x:Name = "CancelG" Content="Отмена" FontSize = "24" HorizontalAlignment="Left" VerticalAlignment="Top" Height="39" Width="222"  Margin="524,610,0,0" RenderTransformOrigin="0.24,-6.793" Grid.Column="0" Grid.Row="0" Click="CancelG_Click"/>
         <Button x:Name = "GBack" Content="Выход" FontSize = "24" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="39" Width="222"  Margin="0,0,10,10" Click="GBack_Click" Grid.Column="1" Grid.Row="1" />
-        <TextBox x:Name="Speciality" HorizontalAlignment="Left" Margin="261,299,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="251" Height="27" Grid.Column="0" Grid.Row="0"/>
-        <ComboBox x:Name= "ComboCourse" HorizontalAlignment="Left" Margin="274,232,0,0" VerticalAlignment="Top" Width="40" SelectedIndex="0" Height="22" Grid.Column="0" Grid.Row="0">
+        <TextBox x:Name="Speciality" FontSize ="20" HorizontalAlignment="Left" Margin="261,310,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="267" Height="35" Grid.Column="0" Grid.Row="0"/>
+        <ComboBox x:Name= "ComboCourse" FontSize ="20" HorizontalAlignment="Left" Margin="261,229,0,0" VerticalAlignment="Top" Width="64" SelectedIndex="0" Height="30" Grid.Column="0" Grid.Row="0">
             <ComboBoxItem>1</ComboBoxItem>
             <ComboBoxItem>2</ComboBoxItem>
             <ComboBoxItem>3</ComboBoxItem>
             <ComboBoxItem>4</ComboBoxItem>
         </ComboBox>
-        <ComboBox x:Name = "ComboSpec" HorizontalAlignment="Left" Margin="318,232,0,0" VerticalAlignment="Top" Width="40" SelectedIndex="0" Height="22" Grid.Column="0" Grid.Row="0">
+        <ComboBox x:Name = "ComboSpec" FontSize ="20" HorizontalAlignment="Left" Margin="330,229,0,0" VerticalAlignment="Top" Width="64" Height="30" SelectedIndex="0" Grid.Row="0">
             <ComboBoxItem>1</ComboBoxItem>
             <ComboBoxItem>2</ComboBoxItem>
             <ComboBoxItem>3</ComboBoxItem>
@@ -44,9 +44,13 @@ FontSize ="48" Text="Введите информацию о группе:" Verti
             <ComboBoxItem>8</ComboBoxItem>
             <ComboBoxItem>9</ComboBoxItem>
         </ComboBox>
-        <ComboBox x:Name = "ComboGroup" HorizontalAlignment="Left" Margin="366,232,0,0" VerticalAlignment="Top" Width="40" SelectedIndex="0" Height="22" Grid.Column="0" Grid.Row="0">
+        <ComboBox x:Name = "ComboGroup" FontSize ="20" HorizontalAlignment="Left" Margin="399,229,0,0" VerticalAlignment="Top" Width="64" Height="30" SelectedIndex="0" Grid.Row="0">
             <ComboBoxItem>1</ComboBoxItem>
             <ComboBoxItem>2</ComboBoxItem>
         </ComboBox>
+        <ListBox x:Name="StudentList" FontSize ="20" Margin="261,390,35,107" ScrollViewer.CanContentScroll="True" SelectionMode="Multiple"/>
+        <TextBlock HorizontalAlignment="Left" Margin="99,384,0,0" TextWrapping="Wrap" 
+            FontSize ="32" Text="Студенты:" VerticalAlignment="Top" Height="43" Width="153" Grid.Column="0" Grid.Row="0"/>
+        <ComboBox x:Name="SpecialityBox" FontSize ="20" HorizontalAlignment="Left" Margin="542,310,0,0" VerticalAlignment="Top" Width="191" Height="35" SelectionChanged="SpecialityBox_SelectionChanged"/>
     </Grid>
 </Page>

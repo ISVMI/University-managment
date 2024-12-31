@@ -15,28 +15,28 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="85*"/>
-            <RowDefinition Height="610*"/>
-            <RowDefinition Height="73*"/>
+            <RowDefinition Height="617*"/>
+            <RowDefinition Height="66*"/>
         </Grid.RowDefinitions>
-        <Button x:Name = "SBack" Content="Выход" FontSize = "24" HorizontalAlignment="Center" VerticalAlignment="Top" Height="39" Width="222"  Margin="1,24,0,0" Grid.Row="2" Grid.Column="1" Click="SBack_Click"/>
-        <TextBlock HorizontalAlignment="Stretch" Margin="34,0,0,0" TextWrapping="Wrap" 
-            FontSize ="48" Text="Введите информацию о студенте:" VerticalAlignment="Center" Width="747"/>
+        <Button x:Name = "SBack" Content="Выход" FontSize = "24" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40" Width="222" Grid.Row="2" Grid.Column="1" Click="SBack_Click"/>
+        <TextBlock Margin="39,0,5,0" TextWrapping="Wrap" 
+            FontSize ="48" Text="Введите информацию о студенте:" VerticalAlignment="Center" Height="63"/>
         <TextBlock Margin="132,60,0,0" TextWrapping="Wrap" 
-            FontSize ="32" Text="Фамилия:" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1"/>
+            FontSize ="32" Text="Фамилия:" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Height="43" Width="139"/>
         <TextBlock Margin="202,127,0,0" TextWrapping="Wrap" 
-            FontSize ="32" Text="Имя:" HorizontalAlignment="Left" VerticalAlignment="Top"  Grid.Row="1"/>
-        <TextBlock Margin="39,290,0,0" TextWrapping="Wrap" 
-            FontSize ="32" Text="Дата рождения:" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="1"/>
+            FontSize ="32" Text="Имя:" HorizontalAlignment="Left" VerticalAlignment="Top"  Grid.Row="1" Height="43" Width="69"/>
+        <TextBlock Margin="34,290,0,0" TextWrapping="Wrap" 
+            FontSize ="32" Text="Дата рождения:" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="1" Height="42" Width="237"/>
         <TextBlock Margin="59,206,0,0" TextWrapping="Wrap" 
-            FontSize ="32" Text="Средний балл:" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1"/>
+            FontSize ="32" Text="Средний балл:" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Height="43" Width="213"/>
         <TextBlock Margin="162,375,0,0" TextWrapping="Wrap" 
-            FontSize ="32" Text="Группа:" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1"/>
+            FontSize ="32" Text="Группа:" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Height="43" Width="110"/>
         <TextBox x:Name ="SurnameBox" HorizontalAlignment="Left" Margin="300,73,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="457" Height="30" Grid.Row="1"/>
         <TextBox x:Name ="NameBox" HorizontalAlignment="Left" Margin="300,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="457" Height="30" Grid.Row="1"/>
         <TextBox x:Name ="AvgMarkBox" HorizontalAlignment="Left" Margin="300,219,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="458" Height="30" Grid.Row="1"/>
         <DatePicker x:Name ="BirthDate" HorizontalAlignment="Left" Margin="300,309,0,0" VerticalAlignment="Top" Height="24" Width="457" Grid.Row="1"/>
-        <Button x:Name = "SaveStudent" Content="Сохранить" FontSize = "24" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="222"  Margin="39,541,0,0" Grid.Row="1" Click="SaveStudent_Click"/>
-        <Button x:Name = "CancelS" Content="Отмена" FontSize = "24" HorizontalAlignment="Left" VerticalAlignment="Top" Height="39" Width="222"  Margin="536,542,0,0" Grid.Row="1" Click="CancelS_Click"/>
+        <Button x:Name = "SaveStudent" Content="Сохранить" FontSize = "24" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="222"  Margin="39,521,0,0" Grid.Row="1" Click="SaveStudent_Click"/>
+        <Button x:Name = "CancelS" Content="Отмена" FontSize = "24" HorizontalAlignment="Left" VerticalAlignment="Top" Height="39" Width="222"  Margin="536,522,0,0" Grid.Row="1" Click="CancelS_Click"/>
         <ComboBox x:Name="GroupBox" ItemBindingGroup="{Binding Path=(local:UniversityContext.Groups)}" HorizontalAlignment="Left" Margin="300,388,0,0" Grid.Row="1" VerticalAlignment="Top" Width="140" Height="30"/>
     </Grid>
 </Page>
