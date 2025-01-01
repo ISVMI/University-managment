@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -38,14 +39,13 @@ namespace FirstWPF
             string name = NameBox.Text;
             float avgMark;
             DateTime birthDate;
-            string gName;
-            if (SurnameBox.Text.IsNullOrEmpty() &&
-                NameBox.Text.IsNullOrEmpty() &&
-                AvgMarkBox.Text.IsNullOrEmpty() &&
-            BirthDate.Text.IsNullOrEmpty() &&
+            if (SurnameBox.Text.IsNullOrEmpty() ||
+                NameBox.Text.IsNullOrEmpty() ||
+                AvgMarkBox.Text.IsNullOrEmpty() ||
+            BirthDate.Text.IsNullOrEmpty() ||
             GroupBox.SelectedIndex == -1)
             {
-                MessageBox.Show($"Вы не ввели данные!");
+                MessageBox.Show($"Вы ввели не все данные!");
                 return null;
             }
             try
@@ -68,16 +68,6 @@ namespace FirstWPF
                 BirthDate.Text = "";
                 return null;
             }
-            //try
-            //{
-            //    gName = GroupBox.SelectedValue.ToString();
-            //}
-            //catch
-            //{
-            //    MessageBox.Show($"Выберите группу!");
-            //    GroupBox.SelectedIndex = -1;
-            //    return null;
-            //}
             Student student = new() { Surname = surname, Name = name, AvgMark = avgMark, BirthDate = birthDate };
             return student;
         }
@@ -131,6 +121,12 @@ namespace FirstWPF
             AvgMarkBox.Text = "";
             BirthDate.Text = "";
             GroupBox.SelectedIndex = -1;
+        }
+
+        private void AvgMarkBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new (@"^{1}[0-9]+(\,[0-9]{0,1})?$");
+            e.Handled = !regex.IsMatch(((TextBox)sender).Text + e.Text);
         }
     }
 }

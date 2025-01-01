@@ -81,7 +81,12 @@ namespace FirstWPF
             UniversityContext UniversityDb = new(optionsBuilder.Options);
             var groups = UniversityDb.Groups;
             var students = UniversityDb.Students;
-            if (TableBox.Text == "Группы")
+            if (DbGrid.SelectedItem == null)
+            {
+                MessageBox.Show("Вы не выбрали ни одной записи!");
+                return;
+            }
+            else if(TableBox.Text == "Группы")
             {
                 var groupItem = DbGrid.SelectedItems;
                 foreach (Group item in groupItem) 
@@ -102,11 +107,7 @@ namespace FirstWPF
                 UniversityDb.SaveChanges();
                 DbGrid.ItemsSource = students.ToList();
             }
-            else
-            {
-                MessageBox.Show("Вы не выбрали ни одной записи!");
-                return;
-            }
+            
 
         }
     }
