@@ -125,8 +125,22 @@ namespace FirstWPF
 
         private void AvgMarkBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new (@"^{1}[0-9]+(\,[0-9]{0,1})?$");
-            e.Handled = !regex.IsMatch(((TextBox)sender).Text + e.Text);
+            // Разрешаем только цифры и одну запятую
+            var textBox = sender as TextBox;
+            var fullText = textBox.Text.Insert(textBox.SelectionStart, e.Text);
+
+            // Регулярное выражение для проверки
+            Regex regex = new (@"^[2-5]([,]\d{0,1})?$");
+            e.Handled = !regex.IsMatch(fullText);
+        }
+
+        private void AvgMarkBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+            {
+                AvgMarkBox.Text = AvgMarkBox.Text.Trim();
+                AvgMarkBox.CaretIndex = AvgMarkBox.Text.Length;
+            }
         }
     }
 }
