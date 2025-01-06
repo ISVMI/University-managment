@@ -19,11 +19,11 @@ namespace FirstWPF
         {
             switch (TableBox.SelectedIndex)
             {
-                case 0: { LoadGroupsGridAsync(); break; }
-                case 1: { LoadStudentsGridAsync(); break; }
+                case 0: { LoadGroupsGrid(); break; }
+                case 1: { LoadStudentsGrid(); break; }
             }
         }
-        private void LoadStudentsGridAsync()
+        private void LoadStudentsGrid()
         {
             var optionsBuilder = new DbContextOptionsBuilder<UniversityContext>();
             UniversityContext UniversityDb = new(optionsBuilder.Options);
@@ -31,21 +31,13 @@ namespace FirstWPF
             DbGrid.Columns.Clear();
             DbGrid.ItemsSource = dbStudents;
         }
-        private void LoadGroupsGridAsync()
+        private void LoadGroupsGrid()
         {
             var optionsBuilder = new DbContextOptionsBuilder<UniversityContext>();
             UniversityContext UniversityDb = new(optionsBuilder.Options);
             var dbGroups = UniversityDb.Groups.ToList();
             DbGrid.Columns.Clear();
             DbGrid.ItemsSource = dbGroups;
-            //List <string> students = [];
-            //foreach (var group in dbGroups) 
-            //{
-            //    foreach (var student in group.Students) 
-            //    { students.Add(student.ToString()); }
-            //}
-            //DataColumn dc = new ("Студенты", typeof(string));
-            //DbGrid.Columns.Add(dc);
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
@@ -95,8 +87,6 @@ namespace FirstWPF
                 UniversityDb.SaveChanges();
                 DbGrid.ItemsSource = students.ToList();
             }
-            
-
         }
     }
 }
