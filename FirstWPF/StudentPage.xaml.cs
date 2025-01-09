@@ -20,7 +20,7 @@ namespace FirstWPF
 
         private void SBack_Click(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new MainPage());
+            this.NavigationService.Navigate(new MainWindow().mainPage);
         }
 
         private Student GetNewStudent()

@@ -17,7 +17,7 @@ namespace FirstWPF
 
         private void GBack_Click(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new MainPage());
+            this.NavigationService.Navigate(new MainWindow().mainPage);
         }
 
         private Group GetNewGroup()

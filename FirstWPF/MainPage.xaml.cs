@@ -1,6 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Identity.Client.Extensions.Msal;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
+using System.Diagnostics.Eventing.Reader;
 
 
 namespace FirstWPF
@@ -10,8 +17,10 @@ namespace FirstWPF
     /// </summary>
     public partial class MainPage : Page
     {
-        public MainPage()
+        UniversityContext _context;
+        public MainPage(UniversityContext context)
         {
+            _context = context;
             InitializeComponent();
         }
 
@@ -19,25 +28,23 @@ namespace FirstWPF
         {
             switch (TableBox.SelectedIndex)
             {
-                case 0: { LoadGroupsGrid(); break; }
+                case 0: { DbGrid.ItemsSource = _context.Groups.ToList(); LoadGroupsGrid(); break; }
                 case 1: { LoadStudentsGrid(); break; }
             }
         }
         private void LoadStudentsGrid()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<UniversityContext>();
-            UniversityContext UniversityDb = new(optionsBuilder.Options);
-            var dbStudents = UniversityDb.Students.ToList();
-            DbGrid.Columns.Clear();
-            DbGrid.ItemsSource = dbStudents;
+            var dbStudents = _context.Students;
+            ObservableCollection<Student> students = new(dbStudents);
+            DbGrid.ItemsSource = students;
         }
         private void LoadGroupsGrid()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<UniversityContext>();
-            UniversityContext UniversityDb = new(optionsBuilder.Options);
-            var dbGroups = UniversityDb.Groups.ToList();
-            DbGrid.Columns.Clear();
-            DbGrid.ItemsSource = dbGroups;
+            var dbGroups = _context.Groups.Local.ToObservableCollection();
+            ObservableCollection<Group> groups = new(dbGroups);
+            DbGrid.ItemsSource = groups;
+            DbGrid.Columns[2].Visibility = Visibility.Hidden;
+            DbGrid.Columns[3].Visibility = Visibility.Hidden;
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
@@ -57,35 +64,136 @@ namespace FirstWPF
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<UniversityContext>();
-            UniversityContext UniversityDb = new(optionsBuilder.Options);
-            var groups = UniversityDb.Groups;
-            var students = UniversityDb.Students;
+            var groups = _context.Groups;
+            var students = _context.Students;
             if (DbGrid.SelectedItem == null)
             {
                 MessageBox.Show("Вы не выбрали ни одной записи!");
                 return;
             }
-            else if(TableBox.Text == "Группы")
+            else if (TableBox.Text == "Группы")
             {
-                var groupItem = DbGrid.SelectedItems;
-                foreach (Group item in groupItem) 
+                var groupItems = DbGrid.SelectedItems;
+                if (groupItems.Count > 0)
                 {
-                    if (groups.Any(g => g.Id == item.Id))
-                    { groups.Remove(item);  }
+                    try
+                    {
+                        foreach (Group item in groupItems)
+                        {
+                            if (groups.Any(g => g.Id == item.Id))
+                            { groups.Remove(item); }
 
+                        }
+                        _context.SaveChanges();
+                        LoadGroupsGrid();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("В выбранной вами строке нет данных");
+                    }
                 }
-                UniversityDb.SaveChanges();
-                DbGrid.ItemsSource = groups.ToList();
+                
             }
             else if (TableBox.Text == "Студенты")
             {
-                var studentItem = DbGrid.SelectedItems;
-                foreach (Student item in studentItem)
-                if (UniversityDb.Students.Any(i => i.Id == item.Id))
-                { UniversityDb.Students.Remove(item); }
-                UniversityDb.SaveChanges();
-                DbGrid.ItemsSource = students.ToList();
+                var studentItems = DbGrid.SelectedItems;
+                if (studentItems != null)
+                {
+                    try
+                    {
+                        foreach (Student item in studentItems)
+                            if (_context.Students.Any(i => i.Id == item.Id))
+                            { _context.Students.Remove(item); }
+                        _context.SaveChanges();
+                        DbGrid.Items.Refresh();
+                        LoadStudentsGrid();
+                    }
+                    catch 
+                    {
+                        MessageBox.Show("В выбранной вами строке нет данных");
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// ObservableCollection
+        /// </summary>
+        private void DbGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            var groups = _context.Groups;
+            var students = _context.Students;
+            if (TableBox.Text == "Студенты")
+            {
+                try
+                {
+                    var newStudent = e.Row.Item as Student;
+                    var existingStudent = students.FirstOrDefault(s => s.Id == newStudent.Id);
+                    var newValue = (e.EditingElement as TextBox).Text;
+                    if (existingStudent != null)
+                    {
+                        switch (e.Column.Header.ToString())
+                        {
+                            case "Surname": existingStudent.Surname = newValue; break;
+                            case "Name": existingStudent.Name = newValue; break;
+                            case "AvgMark":
+                                newValue = newValue.Replace('.', ',');
+                                if (Double.TryParse(newValue, out var mark))
+                                {
+                                    existingStudent.AvgMark = mark;
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Задайте оценку правильно!");
+                                }
+                                break;
+                            case "BirthDate":
+                                try
+                                {
+                                    string day = newValue.Split('/')[1];
+                                    string month = newValue.Split('/')[0];
+                                    string year = newValue.Split('/')[2];
+                                    newValue = $"{day}.{month}.{year}";
+                                    existingStudent.BirthDate = Convert.ToDateTime(newValue);
+                                }
+                                catch
+                                {
+                                    MessageBox.Show("Введите дату в правильном формате!");
+                                }
+                                break;
+                        }
+                        _context.Students.Update(existingStudent);
+                        _context.SaveChangesAsync();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка доступа к экземпляру базы данных! {ex.Message}");
+                }
+            }
+            else if (TableBox.Text == "Группы")
+            {
+                try
+                {
+                    var newGroup = e.Row.Item as Group;
+                    var existingGroup = groups.Find(newGroup.Id);
+                    var newValue = (e.EditingElement as TextBox).Text;
+                    if (existingGroup != null)
+                    {
+                        switch (e.Column.Header.ToString())
+                        {
+                            case "GroupName": existingGroup.GroupName = newValue; break;
+                            case "Speciality": existingGroup.Speciality = newValue; break;
+                        }
+                        _context.Groups.Update(existingGroup);
+                        _context.SaveChangesAsync();
+                        
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка доступа к экземпляру базы данных! {ex.Message}");
+                }
             }
         }
     }

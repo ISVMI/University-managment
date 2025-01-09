@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -20,14 +21,18 @@ namespace FirstWPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        public MainPage mainPage { get; set; }
         public MainWindow()
         {
+            var optionsBuilder = new DbContextOptionsBuilder<UniversityContext>();
+            UniversityContext UniversityDb = new(optionsBuilder.Options);
+            mainPage = new(UniversityDb);
             InitializeComponent();
         }
 
         private void Window_Initialized(object sender, EventArgs e)
         {
-            MainFrame.Navigate(new MainPage());
+            MainFrame.Navigate(mainPage);
         }
     }
 }
