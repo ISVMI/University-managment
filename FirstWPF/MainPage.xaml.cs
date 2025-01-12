@@ -57,8 +57,8 @@ namespace FirstWPF
             switch (TableBox.SelectedIndex)
             {
                 case -1: { MessageBox.Show("Выберите таблицу!"); return; }   
-                case 0: { MainFrame.Navigate(new GroupPage()); break; }
-                case 1: { MainFrame.Navigate(new StudentPage()); break; }
+                case 0: { this.NavigationService.Navigate(new GroupPage()); break; }
+                case 1: { this.NavigationService.Navigate(new StudentPage()); break; }
             }
         }
 
