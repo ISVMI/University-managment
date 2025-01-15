@@ -48,8 +48,8 @@ FontSize ="48" Text="Введите информацию о группе:" Verti
             <ComboBoxItem>1</ComboBoxItem>
             <ComboBoxItem>2</ComboBoxItem>
         </ComboBox>
-        <ListBox x:Name="StudentList" FontSize ="20" Margin="261,390,35,107" ScrollViewer.CanContentScroll="True" SelectionMode="Multiple"/>
-        <TextBlock HorizontalAlignment="Left" Margin="99,384,0,0" TextWrapping="Wrap" 
+        <ListBox x:Name="StudentList" Visibility ="Hidden" FontSize ="20" Margin="261,390,35,107" ScrollViewer.CanContentScroll="True" SelectionMode="Multiple"/>
+        <TextBlock Visibility ="Hidden" HorizontalAlignment="Left" Margin="99,384,0,0" TextWrapping="Wrap" 
             FontSize ="32" Text="Студенты:" VerticalAlignment="Top" Height="43" Width="153" Grid.Column="0" Grid.Row="0"/>
         <ComboBox x:Name="SpecialityBox" FontSize ="20" HorizontalAlignment="Left" Margin="542,310,0,0" VerticalAlignment="Top" Width="191" Height="35" SelectionChanged="SpecialityBox_SelectionChanged"/>
     </Grid>
