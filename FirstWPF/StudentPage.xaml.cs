@@ -32,8 +32,7 @@ namespace FirstWPF
             if (SurnameBox.Text.IsNullOrEmpty() ||
                 NameBox.Text.IsNullOrEmpty() ||
                 AvgMarkBox.Text.IsNullOrEmpty() ||
-            BirthDate.Text.IsNullOrEmpty() ||
-            GroupBox.SelectedIndex == -1)
+            BirthDate.Text.IsNullOrEmpty())
             {
                 MessageBox.Show($"Вы ввели не все данные!");
                 return null;
@@ -68,29 +67,6 @@ namespace FirstWPF
             student = GetNewStudent();
             var optionsBuilder = new DbContextOptionsBuilder<UniversityContext>();
             UniversityContext UniversityDb = new(optionsBuilder.Options);
-            try
-            {
-                var newStudent = UniversityDb.Groups
-                    .Select(g => new Group()
-                    {
-                        Id = g.Id,
-                        GroupName = g.GroupName,
-                        Speciality = g.Speciality,
-                        StudentId = g.StudentId,
-                        Students = g.Students,
-                    })
-                    .Where(g => g.GroupName == GroupBox.SelectedValue.ToString())
-                    .ToList();
-                foreach (var groups in newStudent)
-                {
-                    groups.Students.Add(student);
-                }
-            }
-            catch 
-            {
-                MessageBox.Show("Сначала добавьте хотя бы одну группу!"); 
-                return;
-            }
             UniversityDb.Students.AddAsync(student);
             UniversityDb.SaveChanges();
             MessageBox.Show($"Новый студент {student.Surname} {student.Name} успешно добавлен!");
