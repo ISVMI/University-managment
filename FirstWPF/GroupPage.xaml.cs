@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore; 
+﻿using Microsoft.EntityFrameworkCore;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -10,6 +10,7 @@ namespace FirstWPF
     /// </summary>
     public partial class GroupPage : Page
     {
+        public List<Student> studentsList { get; set; } = [];
         public GroupPage()
         {
             InitializeComponent();
@@ -22,15 +23,15 @@ namespace FirstWPF
 
         private Group GetNewGroup()
         {
-            if (ComboCourse.Text == null 
-                || ComboSpec.Text == null 
+            if (ComboCourse.Text == null
+                || ComboSpec.Text == null
                 || ComboGroup.Text == null)
             {
-                return null; 
-            } 
-            else if (Speciality.Text == "" 
-                && ComboSpec.SelectedIndex == 0 
-                && ComboGroup.SelectedIndex == 0 
+                return null;
+            }
+            else if (Speciality.Text == ""
+                && ComboSpec.SelectedIndex == 0
+                && ComboGroup.SelectedIndex == 0
                 && ComboCourse.SelectedIndex == 0)
             {
                 return null;
@@ -43,10 +44,10 @@ namespace FirstWPF
             {
                 studentList.Add((Student)item);
             }
-            Group group = new () { 
-                GroupName = groupCode, 
-                Speciality = groupSpeciality,  
-                UniversityId = 1,
+            Group group = new()
+            {
+                GroupName = groupCode,
+                Speciality = groupSpeciality,
                 Students = studentList
             };
             return group;
@@ -54,10 +55,10 @@ namespace FirstWPF
         private void SaveGroup_Click(object sender, RoutedEventArgs e)
         {
             Group group;
-            if (GetNewGroup() == null) 
+            if (GetNewGroup() == null)
             {
                 MessageBox.Show("Вы ввели не все необходимые данные!");
-                return; 
+                return;
             }
             group = GetNewGroup();
             var optionsBuilder = new DbContextOptionsBuilder<UniversityContext>();
@@ -66,7 +67,31 @@ namespace FirstWPF
                 .Any(g => g.GroupName == group.GroupName)
                 )
             {
-                MessageBox.Show("Такая группа уже создана!");
+                MessageBoxResult result = MessageBox.
+                    Show("Данная группа уже существует, вы хотели добавить в неё студентов?"
+                    , "Внимание!", MessageBoxButton.YesNo);
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        {
+                            var groupToChange = UniversityDb.Groups.Entry(group).Entity;
+                            groupToChange.Students.AddRange(group.Students);
+                            UniversityDb.SaveChanges();
+                            foreach (var student in group.Students)
+                            {
+                                if (student.Group == null) 
+                                { 
+                                studentsList.Remove(student);
+                                }
+                            }
+                            MessageBox.Show("Студенты успешно добавлены");
+                            return;
+                        }
+                    case MessageBoxResult.No:
+                        {
+                            return;
+                        }
+                }
                 return;
             }
             UniversityDb.Groups.AddAsync(group);
@@ -79,15 +104,18 @@ namespace FirstWPF
             var optionsBuilder = new DbContextOptionsBuilder<UniversityContext>();
             UniversityContext UniversityDb = new(optionsBuilder.Options);
             var students = UniversityDb.Students
-                .Select(s => s)
+                .Select(s=>s)
+                .Where(s=>s.Group == null)
                 .ToList();
-            List<Student> studentsList = [];
-            foreach (var student in students)
+            if (students != null)
             {
-                studentsList.Add(student);
+                foreach (var student in students)
+                {
+                    studentsList.Add(student);
+                }
             }
             var specialities = UniversityDb.Groups
-                .Select(s => s.Speciality).ToList();
+                .Select(s => s.Speciality).Distinct().ToList();
             SpecialityBox.ItemsSource = specialities;
             StudentList.ItemsSource = studentsList;
         }

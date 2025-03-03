@@ -1,15 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.Identity.Client.Extensions.Msal;
-using System.ComponentModel;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
-using System.Diagnostics.Eventing.Reader;
-
-
+using System.Collections;
+using System.Runtime.CompilerServices;
 namespace FirstWPF
 {
     /// <summary>
@@ -28,23 +22,29 @@ namespace FirstWPF
         {
             switch (TableBox.SelectedIndex)
             {
-                case 0: { DbGrid.ItemsSource = _context.Groups.ToList(); LoadGroupsGrid(); break; }
+                case 0: { LoadGroupsGrid(); break; }
                 case 1: { LoadStudentsGrid(); break; }
             }
         }
         private void LoadStudentsGrid()
         {
-            var dbStudents = _context.Students;
-            ObservableCollection<Student> students = new(dbStudents);
-            DbGrid.ItemsSource = students;
+            var dbStudents = new ObservableCollection<Student>(_context.Students.Include(s => s.Group).ToList());
+            DbGrid.ItemsSource = dbStudents;
+            DbGrid.Columns.Clear();
+            foreach (var column in (IEnumerable)FindResource("StudentColumns"))
+            {
+                DbGrid.Columns.Add((DataGridColumn)column);
+            }
         }
         private void LoadGroupsGrid()
         {
-            var dbGroups = _context.Groups.Local.ToObservableCollection();
-            ObservableCollection<Group> groups = new(dbGroups);
-            DbGrid.ItemsSource = groups;
-            DbGrid.Columns[2].Visibility = Visibility.Hidden;
-            DbGrid.Columns[3].Visibility = Visibility.Hidden;
+            var dbGroups = new ObservableCollection<Group>(_context.Groups.Include(g => g.Students).ToList());
+            DbGrid.ItemsSource = dbGroups;
+            DbGrid.Columns.Clear();
+            foreach (var column in (IEnumerable)FindResource("GroupColumns"))
+            {
+                DbGrid.Columns.Add((DataGridColumn)column);
+            }
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
@@ -56,7 +56,7 @@ namespace FirstWPF
         {
             switch (TableBox.SelectedIndex)
             {
-                case -1: { MessageBox.Show("Выберите таблицу!"); return; }   
+                case -1: { MessageBox.Show("Выберите таблицу!"); return; }
                 case 0: { this.NavigationService.Navigate(new GroupPage()); break; }
                 case 1: { this.NavigationService.Navigate(new StudentPage()); break; }
             }
@@ -92,7 +92,7 @@ namespace FirstWPF
                         MessageBox.Show("В выбранной вами строке нет данных");
                     }
                 }
-                
+
             }
             else if (TableBox.Text == "Студенты")
             {
@@ -108,7 +108,7 @@ namespace FirstWPF
                         DbGrid.Items.Refresh();
                         LoadStudentsGrid();
                     }
-                    catch 
+                    catch
                     {
                         MessageBox.Show("В выбранной вами строке нет данных");
                     }
@@ -134,9 +134,9 @@ namespace FirstWPF
                     {
                         switch (e.Column.Header.ToString())
                         {
-                            case "Surname": existingStudent.Surname = newValue; break;
-                            case "Name": existingStudent.Name = newValue; break;
-                            case "AvgMark":
+                            case "Фамилия": existingStudent.Surname = newValue; break;
+                            case "Имя": existingStudent.Name = newValue; break;
+                            case "Средний балл":
                                 newValue = newValue.Replace('.', ',');
                                 if (Double.TryParse(newValue, out var mark))
                                 {
@@ -147,7 +147,7 @@ namespace FirstWPF
                                     MessageBox.Show("Задайте оценку правильно!");
                                 }
                                 break;
-                            case "BirthDate":
+                            case "Дата рождения":
                                 try
                                 {
                                     string day = newValue.Split('/')[1];
@@ -156,11 +156,13 @@ namespace FirstWPF
                                     newValue = $"{day}.{month}.{year}";
                                     existingStudent.BirthDate = Convert.ToDateTime(newValue);
                                 }
+
                                 catch
                                 {
                                     MessageBox.Show("Введите дату в правильном формате!");
                                 }
                                 break;
+                            case "Группа": existingStudent.Group.GroupName = newValue; break;
                         }
                         _context.Students.Update(existingStudent);
                         _context.SaveChangesAsync();
@@ -182,12 +184,12 @@ namespace FirstWPF
                     {
                         switch (e.Column.Header.ToString())
                         {
-                            case "GroupName": existingGroup.GroupName = newValue; break;
-                            case "Speciality": existingGroup.Speciality = newValue; break;
+                            case "Код группы": existingGroup.GroupName = newValue; break;
+                            case "Специальность": existingGroup.Speciality = newValue; break;
                         }
                         _context.Groups.Update(existingGroup);
                         _context.SaveChangesAsync();
-                        
+
                     }
                 }
                 catch (Exception ex)

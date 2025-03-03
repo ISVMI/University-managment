@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FirstWPF.Migrations
 {
     [DbContext(typeof(UniversityContext))]
-    [Migration("20241229145007_NewConnections")]
-    partial class NewConnections
+    [Migration("20250303134125_Reimaginated")]
+    partial class Reimaginated
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,15 +39,7 @@ namespace FirstWPF.Migrations
                     b.Property<string>("Speciality")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UniversityId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UniversityId");
 
                     b.ToTable("Groups");
                 });
@@ -66,6 +58,9 @@ namespace FirstWPF.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -74,35 +69,25 @@ namespace FirstWPF.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GroupId");
+
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("FirstWPF.University", b =>
+            modelBuilder.Entity("FirstWPF.Student", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.HasOne("FirstWPF.Group", "Group")
+                        .WithMany("Students")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("UniversityName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Universities");
+                    b.Navigation("Group");
                 });
 
             modelBuilder.Entity("FirstWPF.Group", b =>
                 {
-                    b.HasOne("FirstWPF.University", "University")
-                        .WithMany()
-                        .HasForeignKey("UniversityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("University");
+                    b.Navigation("Students");
                 });
 #pragma warning restore 612, 618
         }

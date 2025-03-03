@@ -6,24 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FirstWPF.Migrations
 {
     /// <inheritdoc />
-    public partial class Intitial_Create : Migration
+    public partial class Reimaginated : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Universities",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UniversityName = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Universities", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Groups",
                 columns: table => new
@@ -31,18 +18,11 @@ namespace FirstWPF.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     GroupName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UniversityId = table.Column<int>(type: "int", nullable: false),
                     Speciality = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Groups", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Groups_Universities_UniversityId",
-                        column: x => x.UniversityId,
-                        principalTable: "Universities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -69,11 +49,6 @@ namespace FirstWPF.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Groups_UniversityId",
-                table: "Groups",
-                column: "UniversityId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Students_GroupId",
                 table: "Students",
                 column: "GroupId");
@@ -87,9 +62,6 @@ namespace FirstWPF.Migrations
 
             migrationBuilder.DropTable(
                 name: "Groups");
-
-            migrationBuilder.DropTable(
-                name: "Universities");
         }
     }
 }

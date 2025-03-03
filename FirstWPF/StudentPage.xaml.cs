@@ -67,6 +67,9 @@ namespace FirstWPF
             student = GetNewStudent();
             var optionsBuilder = new DbContextOptionsBuilder<UniversityContext>();
             UniversityContext UniversityDb = new(optionsBuilder.Options);
+            Group group = UniversityDb.Groups.FirstOrDefault(g => g.GroupName == GroupBox.Text);
+            group?.Students.Add(student);
+            student.Group = group;
             UniversityDb.Students.AddAsync(student);
             UniversityDb.SaveChanges();
             MessageBox.Show($"Новый студент {student.Surname} {student.Name} успешно добавлен!");

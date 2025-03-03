@@ -36,12 +36,6 @@ namespace FirstWPF.Migrations
                     b.Property<string>("Speciality")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UniversityId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("Groups");
@@ -61,6 +55,9 @@ namespace FirstWPF.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -69,24 +66,25 @@ namespace FirstWPF.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GroupId");
+
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("FirstWPF.University", b =>
+            modelBuilder.Entity("FirstWPF.Student", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.HasOne("FirstWPF.Group", "Group")
+                        .WithMany("Students")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Navigation("Group");
+                });
 
-                    b.Property<string>("UniversityName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Universities");
+            modelBuilder.Entity("FirstWPF.Group", b =>
+                {
+                    b.Navigation("Students");
                 });
 #pragma warning restore 612, 618
         }

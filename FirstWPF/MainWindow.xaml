@@ -10,7 +10,6 @@
         Title="Меню" Height="768" Width="1024" 
         WindowStartupLocation="CenterScreen"
         Initialized="Window_Initialized">
-    
     <Grid x:Name="MainGrid" ShowGridLines="True" Background="#FFB1A5A5">
         <Frame x:Name="MainFrame"/>
     </Grid>
